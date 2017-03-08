@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="demo.core.repositories.jpa"/>
+
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">-->
+        <!--<property name="username" value="sa"/>-->
+        <!--<property name="password" value="sa"/>-->
+        <!--<property name="url" value="jdbc:h2:mem:test"/>-->
+        <!--<property name="driverClassName" value="org.h2.Driver"/>-->
+    <!--</bean>-->
+
+    <bean id="erpDataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+        <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=devr12-scan.wwt.com)(PORT=1525))(CONNECT_DATA=(SERVICE_NAME=DEVERP_WEBLOGIC.WWT.COM)))" />
+        <property name="username" value="wl_user" />
+        <property name="password" value="wwt_inn0vate" />
+    </bean>
+
+    <bean id="erpEntityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="erp"/>
+        <property name="dataSource" ref="erpDataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform" value="org.hibernate.dialect.Oracle12cDialect"/>
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy
+                </prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="erpTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="erpEntityManagerFactory"/>
+    </bean>
+
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+        <!--<property name="dataSource" ref="erpDataSource"/>-->
+        <!--<property name="jpaVendorAdapter">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>-->
+        <!--</property>-->
+        <!--<property name="jpaProperties">-->
+            <!--<map>-->
+                <!--<entry key="hibernate.hbm2ddl.auto" value="create-drop"/>-->
+                <!--<entry key="hibernate.show_sql" value="true"/>-->
+            <!--</map>-->
+        <!--</property>-->
+        <!--<property name="packagesToScan" value="demo.core.models.entities"/>-->
+    <!--</bean>-->
+
+    <!--<tx:annotation-driven/>-->
+
+    <tx:annotation-driven transaction-manager="erpTransactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
+
+    <context:component-scan base-package="demo.core.services.impl"/>
+
+</beans>

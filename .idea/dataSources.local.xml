@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=devr12-scan.wwt.com)(PORT=1525))(CONNECT_DATA=(SERVICE_NAME=DEVERP_WEBLOGIC.WWT.COM)))" uuid="9820d3f4-3375-4c6f-9d00-1696c39ddccd">
+      <database-info product="Oracle" version="Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 - 64bit Production&#10;With the Partitioning, Real Application Clusters, Automatic Storage Management, OLAP,&#10;Data Mining and Real Application Testing options" jdbc-version="4.0" driver-name="Oracle JDBC driver" driver-version="12.1.0.2.0">
+        <extra-name-characters>$#</extra-name-characters>
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>wl_user</user-name>
+      <resolve-scope>*:PUBLIC,WL_USER</resolve-scope>
+    </data-source>
+  </component>
+</project>
